@@ -1,0 +1,19 @@
+name: Unpack project
+on: workflow_dispatch
+permissions:
+  contents: write
+jobs:
+  unpack:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          unzip -q DroidRomFS-m1.zip -d /tmp/x
+          rm DroidRomFS-m1.zip
+          rm -rf /tmp/x/DroidRomFS/.github
+          cp -r /tmp/x/DroidRomFS/. .
+          git config user.name github-actions
+          git config user.email actions@github.com
+          git add -A
+          git commit -m "Unpack Milestone 1 project"
+          git push
